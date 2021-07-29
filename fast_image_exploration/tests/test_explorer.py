@@ -5,7 +5,7 @@ class TestExplorer(TestCase):
 
     def test_directory_construction(self):
         cfg = {
-            "image_directory": "/mnist/"
+            "image_directory": "/mnist/mnist_png/"
         }
         explorer = DatasetExplorer(cfg)
         self.assertEquals(explorer._count_images(), 20)
