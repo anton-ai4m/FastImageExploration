@@ -16,3 +16,10 @@ class TestDirectoryDataSource(TestCase):
         file = 'mnist/data.txt'
         source = DirectoryDataSource(os.path.join(test_path, file))
         self.assertEqual(len(source.list_images()), 20)
+
+    def test_image_load(self):
+        test_path = Path(__file__).parent
+        file = 'mnist/data.txt'
+        source = DirectoryDataSource(os.path.join(test_path, file))
+        shape = source.get_image(source.list_images()[0]).shape
+        self.assertEqual(shape, (28, 28))

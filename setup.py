@@ -8,6 +8,12 @@ setup(name='fast_image_exploration',
       author_email='anton@ai4medicine.com',
       license='MIT',
       packages=['fast_image_exploration'],
+      install_requires=[
+          'pydicom',
+          'nibabel',
+          'numpy',
+          'pillow'
+      ],
       zip_safe=False,
       test_suite='nose.collector',
       tests_require=['nose'])

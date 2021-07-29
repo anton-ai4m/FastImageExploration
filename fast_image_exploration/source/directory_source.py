@@ -1,4 +1,9 @@
 import os
+import nibabel as nib
+from PIL import Image
+from pydicom import dcmread
+import numpy as np
+
 from .data_source import DataSource
 
 class DirectoryDataSource(DataSource):
@@ -24,5 +29,14 @@ class DirectoryDataSource(DataSource):
     def list_images(self):
         return self.images
 
-    def get_image(self, id):
-        pass
+    def get_image(self, filename):
+        if filename.endswith('.dcm'):
+            img = dcmread(id)
+            return img.pixel_array
+        if filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.jpeg'):
+            image = Image.open(filename)
+            return np.asarray(image)
+        if filename.endswith('.nii'):
+            img = nib.load(filename)
+            return np.array(img.dataobj)
+        raise TypeError("Image format not supported. Use one of dicom / nifty / png / jpg")
