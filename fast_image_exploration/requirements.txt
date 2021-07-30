@@ -1,0 +1,5 @@
+nose
+pydicom
+nibabel
+numpy
+pillow
