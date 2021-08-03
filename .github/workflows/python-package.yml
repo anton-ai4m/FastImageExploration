@@ -4,8 +4,6 @@
 name: Build Python package and upload to TestPyPi
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
