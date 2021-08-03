@@ -18,8 +18,11 @@ class DirectoryDataSource(DataSource):
                     image, label = line.split(',')
                     image = image.strip()
                     label = label.strip()
-                    # Append the directory of the file
-                    self.data[os.path.join(os.path.split(path)[0], image)] = label
+                    # Append the directory of the file if necessary:
+                    if os.path.isfile(image):
+                        self.data[image] = label
+                    else:
+                        self.data[os.path.join(os.path.split(path)[0], image)] = label
         # Input is not a filename
         else:
             raise TypeError("Invalid input path")
