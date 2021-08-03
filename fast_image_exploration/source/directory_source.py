@@ -11,23 +11,21 @@ class DirectoryDataSource(DataSource):
     def __init__(self, path):
         # Input is file with image filenames
         if os.path.isfile(path):
+            self.data = {}
             with open(path, 'r') as file:
-                self.images = file.read().splitlines()
-            # Append the directory of the file
-            self.images = [os.path.join(os.path.split(path)[0], image) for image in self.images]
-        # Input is the parent directory containing images
-        elif os.path.isdir(path):
-            self.images = []
-            for dirname, _, filenames in os.walk(path):
-                for filename in filenames:
-                    image = os.path.join(dirname, filename)
-                    self.images.append(image)
-        # Exception case
+                lines = file.read().splitlines()
+                for line in lines:
+                    image, label = line.split(',')
+                    image = image.strip()
+                    label = label.strip()
+                    # Append the directory of the file
+                    self.data[os.path.join(os.path.split(path)[0], image)] = label
+        # Input is not a filename
         else:
             raise TypeError("Invalid input path")
 
     def list_images(self):
-        return self.images
+        return list(self.data.keys())
 
     def get_image(self, filename):
         if filename.endswith('.dcm'):
@@ -40,3 +38,6 @@ class DirectoryDataSource(DataSource):
             img = nib.load(filename)
             return np.array(img.dataobj)
         raise TypeError("Image format not supported. Use one of dicom / nifty / png / jpg")
+
+    def get_label(self, image):
+        return self.data[image]
