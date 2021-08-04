@@ -12,7 +12,8 @@ setup(name='fast_image_exploration',
           'pydicom',
           'nibabel',
           'numpy',
-          'pillow'
+          'pillow',
+          'matplotlib'
       ],
       zip_safe=False,
       test_suite='nose.collector',
