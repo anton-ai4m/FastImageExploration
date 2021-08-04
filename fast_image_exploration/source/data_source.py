@@ -9,3 +9,7 @@ class DataSource(ABC):
     @abstractmethod
     def get_image(self, id):
         pass
+
+    @abstractmethod
+    def get_label(self, id):
+        pass
