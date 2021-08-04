@@ -8,20 +8,20 @@ class TestDirectoryDataSource(TestCase):
 
     def test_mnist_construction(self):
         test_path = Path(__file__).parent
-        file = 'mnist/data.txt'
+        file = 'classification/data.txt'
         source = DirectoryDataSource(os.path.join(test_path, file), "classification")
         self.assertEqual(len(source.list_images()), 20)
 
     def test_mnist_image_load(self):
         test_path = Path(__file__).parent
-        file = 'mnist/data.txt'
+        file = 'classification/data.txt'
         source = DirectoryDataSource(os.path.join(test_path, file), "classification")
         shape = source.get_image(source.list_images()[0]).shape
         self.assertEqual(shape, (28, 28))
 
     def test_mnist_label_load(self):
         test_path = Path(__file__).parent
-        file = 'mnist/data.txt'
+        file = 'classification/data.txt'
         source = DirectoryDataSource(os.path.join(test_path, file), "classification")
         label = source.get_label(source.list_images()[8])
         self.assertEqual(label, '4')
