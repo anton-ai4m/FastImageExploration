@@ -1,4 +1,5 @@
 import os
+import json
 import nibabel as nib
 from PIL import Image
 from pydicom import dcmread
@@ -16,7 +17,7 @@ class DirectoryDataSource(DataSource):
             with open(path, 'r') as file:
                 lines = file.read().splitlines()
                 for line in lines:
-                    image, label = line.split(',')
+                    image, label = line.split(',', 1)
                     image = image.strip()
                     label = label.strip()
                     # Append the directory of the file if necessary:
@@ -50,4 +51,6 @@ class DirectoryDataSource(DataSource):
         # If label is an image stored as a filename, load image
         if self.case == "segmentation":
             return self.get_image(self.data[image])
+        if self.case == "detection":
+            return np.array(json.loads(self.data[image]))
         return self.data[image]
