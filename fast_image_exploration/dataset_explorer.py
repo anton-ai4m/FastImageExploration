@@ -15,6 +15,9 @@ class DatasetExplorer():
     def _count_images(self):
         return len(self.source.list_images())
 
+    def images(self):
+        return self.source.list_images()
+
     def view_image(self, id):
         image = self.source.get_image(id)
         label = self.source.get_label(id)
