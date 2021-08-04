@@ -8,7 +8,8 @@ from .data_source import DataSource
 
 class DirectoryDataSource(DataSource):
 
-    def __init__(self, path):
+    def __init__(self, path, case):
+        self.case = case
         # Input is file with image filenames
         if os.path.isfile(path):
             self.data = {}
@@ -19,6 +20,9 @@ class DirectoryDataSource(DataSource):
                     image = image.strip()
                     label = label.strip()
                     # Append the directory of the file if necessary:
+                    if self.case == "segmentation":
+                        if not os.path.isfile(label):
+                            label = os.path.join(os.path.split(path)[0], label)
                     if os.path.isfile(image):
                         self.data[image] = label
                     else:
@@ -43,4 +47,7 @@ class DirectoryDataSource(DataSource):
         raise TypeError("Image format not supported. Use one of dicom / nifty / png / jpg")
 
     def get_label(self, image):
+        # If label is an image stored as a filename, load image
+        if self.case == "segmentation":
+            return self.get_image(self.data[image])
         return self.data[image]
