@@ -1,3 +1,3 @@
-# Release 0.0.5
+# Release 0.0.6
 
-Added the release description file
+Use package version as GitHub release version 
