@@ -1,3 +1,3 @@
-# Release 0.0.6
+# Release 0.0.7
 
-Use package version as GitHub release version 
+Use package version as GitHub release version
