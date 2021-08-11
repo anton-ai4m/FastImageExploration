@@ -6,6 +6,7 @@ on:
 
 jobs:
   release:
+    needs: publish
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +40,6 @@ jobs:
         prerelease: false
 
   publish:
-    needs: release
     runs-on: ubuntu-latest
 
     steps:
