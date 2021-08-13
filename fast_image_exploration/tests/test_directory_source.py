@@ -27,6 +27,15 @@ class TestDirectoryDataSource(TestCase):
         label = source.get_label(source.list_images()[8])
         self.assertEqual(label, '4')
 
+    def test_mnist_modify_save(self):
+        test_path = Path(__file__).parent
+        file = 'classification/data.txt'
+        source = DirectoryDataSource(os.path.join(test_path, file), "classification")
+        source.drop_image('mnist_png/testing/6/21.png')
+        source.drop_image('mnist_png/testing/4/4.png')
+        self.assertEqual(len(source.list_images()), 18)
+        source.save_dataset()
+
     def test_segmentation_construction(self):
         test_path = Path(__file__).parent
         file = 'segmentation/data.txt'
@@ -48,6 +57,14 @@ class TestDirectoryDataSource(TestCase):
         self.assertIsInstance(label, np.ndarray)
         self.assertEqual(label.shape, (256, 256))
 
+    def test_segmentation_modify_save(self):
+        test_path = Path(__file__).parent
+        file = 'segmentation/data.txt'
+        source = DirectoryDataSource(os.path.join(test_path, file), "segmentation")
+        source.drop_image('images/300.png')
+        source.save_dataset()
+        self.assertEqual(len(source.list_images()), 9)
+
     def test_detection_construction(self):
         test_path = Path(__file__).parent
         file = 'detection/data.txt'
@@ -68,3 +85,12 @@ class TestDirectoryDataSource(TestCase):
         label = source.get_label(source.list_images()[86])
         self.assertIsInstance(label, np.ndarray)
         self.assertEqual(label.shape, (1, 4))
+
+    def test_detection_modify_save(self):
+        test_path = Path(__file__).parent
+        file = 'detection/data.txt'
+        source = DirectoryDataSource(os.path.join(test_path, file), "detection")
+        source.drop_image('datasets/images/a (62).jpg')
+        source.drop_image('datasets/images/a (90).jpg')
+        source.save_dataset()
+        self.assertEqual(len(source.list_images()), 110)

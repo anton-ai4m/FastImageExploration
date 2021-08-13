@@ -12,6 +12,7 @@ class DirectoryDataSource(DataSource):
 
     def __init__(self, path, case):
         self.case = case
+        self.init_file = path
         # Input is file with image filenames
         if os.path.isfile(path):
             self.data = {}
@@ -21,14 +22,7 @@ class DirectoryDataSource(DataSource):
                     image, label = line.split(',', 1)
                     image = image.strip()
                     label = label.strip()
-                    # Append the directory of the file if necessary:
-                    if self.case == "segmentation":
-                        if not os.path.isfile(label):
-                            label = os.path.join(os.path.split(path)[0], label)
-                    if os.path.isfile(image):
-                        self.data[image] = label
-                    else:
-                        self.data[os.path.join(os.path.split(path)[0], image)] = label
+                    self.data[image] = label
         # Input is not a filename
         else:
             raise TypeError("Invalid input path")
@@ -36,7 +30,21 @@ class DirectoryDataSource(DataSource):
     def list_images(self):
         return list(self.data.keys())
 
+    def save_dataset(self):
+        dir, file = os.path.split(self.init_file)
+        out_file = os.path.join(dir, "modified_" + file)
+        with open(out_file, 'w') as f:
+            for image in self.data.keys():
+                f.write("{}, {}\n".format(image, self.data[image]))
+
+    def drop_image(self, filename):
+        self.data.pop(filename, None)
+
     def get_image(self, filename):
+        # Append the working directory if necessary
+        if not os.path.isfile(filename):
+            filename = os.path.join(os.path.split(self.init_file)[0], filename)
+
         if filename.endswith('.dcm'):
             img = dcmread(id)
             return img.pixel_array
