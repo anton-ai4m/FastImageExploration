@@ -7,6 +7,7 @@ import numpy as np
 
 from .data_source import DataSource
 
+
 class DirectoryDataSource(DataSource):
 
     def __init__(self, path, case):

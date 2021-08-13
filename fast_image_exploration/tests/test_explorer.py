@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from fast_image_exploration import DatasetExplorer
 
+
 class TestExplorer(TestCase):
 
     def test_file_construction(self):

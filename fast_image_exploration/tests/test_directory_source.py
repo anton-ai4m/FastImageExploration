@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest import TestCase
 from fast_image_exploration import DirectoryDataSource
 
+
 class TestDirectoryDataSource(TestCase):
 
     def test_mnist_construction(self):

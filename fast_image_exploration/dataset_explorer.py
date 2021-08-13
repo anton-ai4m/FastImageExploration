@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from .source.directory_source import DirectoryDataSource
 
+
 class DatasetExplorer():
 
     def __init__(self, cfg):
